@@ -72,12 +72,12 @@ public class HandBookCrawler extends WebCrawler {
      /**
       * This function is called when a page is fetched and ready
       * to be processed by your program.
-      * ³§ÉÌ: ·ÉÀûÆÖ
-		ÎÄ¼şÀàĞÍ: PDF
-		ÎÄ¼ş´óĞ¡: 324.17 KB
-		ÉÏ´«Ê±¼ä: 2012-05-02 16:33:21
-		ÎÄ¼şĞ£Ñé: 7188D0015E6D2DF4549C1095C5C52E15 
-		ÏÂÔØÍ³¼Æ: 2715 
+      * å‚å•†: é£åˆ©æµ¦
+		æ–‡ä»¶ç±»å‹: PDF
+		æ–‡ä»¶å¤§å°: 324.17 KB
+		ä¸Šä¼ æ—¶é—´: 2012-05-02 16:33:21
+		æ–‡ä»¶æ ¡éªŒ: 7188D0015E6D2DF4549C1095C5C52E15 
+		ä¸‹è½½ç»Ÿè®¡: 2715 
 			
 		Home > Industrial> > Processors> Linear LTC3676 LTC3676-1 Processors Datasheet 
 		Company:
@@ -126,25 +126,25 @@ public class HandBookCrawler extends WebCrawler {
                  }
              }else{
             	 for(String s : arr){
-                	 if (s.indexOf("Ê×Ò³ >") > 0 ){
+                	 if (s.indexOf("é¦–é¡µ >") > 0 ){
                 		 b.append(s).append(";");
                 		 System.out.println(s);
-                	 }else if (s.indexOf("³§ÉÌ") > 0 ){
+                	 }else if (s.indexOf("å‚å•†") > 0 ){
                 		 b.append(s).append(";");
                 		 System.out.println(s);
-                	 }else if (s.indexOf("ÎÄ¼şÀàĞÍ") > 0 ){
+                	 }else if (s.indexOf("æ–‡ä»¶ç±»å‹") > 0 ){
                 		 b.append(s).append(";");
                 		 System.out.println(s);
-                	 }else if (s.indexOf("ÎÄ¼ş´óĞ¡") > 0 ){
+                	 }else if (s.indexOf("æ–‡ä»¶å¤§å°") > 0 ){
                 		 b.append(s).append(";");
                 		 System.out.println(s);
-                	 }else if (s.indexOf("ÉÏ´«Ê±¼ä") > 0 ){
+                	 }else if (s.indexOf("ä¸Šä¼ æ—¶é—´") > 0 ){
                 		 b.append(s).append(";");
                 		 System.out.println(s);
-                	 }else if (s.indexOf("ÎÄ¼şĞ£Ñé") > 0 ){
+                	 }else if (s.indexOf("æ–‡ä»¶æ ¡éªŒ") > 0 ){
                 		 b.append(s).append(";");
                 		 System.out.println(s);
-                	 }else if (s.indexOf("ÏÂÔØÍ³¼Æ") > 0 ){
+                	 }else if (s.indexOf("ä¸‹è½½ç»Ÿè®¡") > 0 ){
                 		 b.append(s).append(";");
                 		 System.out.println(s);
                 		 break;

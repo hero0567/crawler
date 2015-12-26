@@ -49,7 +49,7 @@
                 <executions>
                     <execution>
                         <id>copy</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
@@ -65,7 +65,7 @@
 	            <artifactId>maven-assembly-plugin</artifactId> <!-- mvn assembly:assembly copy jar classes into jar -->
 	            <version>2.2</version>
 	            <configuration>
-	                <appendAssemblyId>false</appendAssemblyId>
+	                <appendAssemblyId>true</appendAssemblyId>
 	                <descriptorRefs>
 	                    <descriptorRef>jar-with-dependencies</descriptorRef>
 	                </descriptorRefs>
@@ -75,6 +75,15 @@
 	                    </manifest>
 	                </archive>
 	            </configuration>
+	             <executions>
+				    <execution>
+				      <id>make-assembly</id> <!-- this is used for inheritance merges -->
+				      <phase>package</phase> 
+				      <goals>
+				        <goal>single</goal>
+				      </goals>
+				    </execution>
+				  </executions>
 	        </plugin>
             <plugin>
 		        <groupId>org.codehaus.mojo</groupId> <!-- mvn clean install exec:java run Main class with mvn command without classpath -->
