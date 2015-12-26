@@ -27,10 +27,25 @@ public class Controller {
          * URLs that are fetched and then the crawler starts following links
          * which are found in these pages
          */
-        controller.addSeed("http://www.shuomingshuku.com/file/2493381");
-//        controller.addSeed("http://www.shuomingshuku.com/file/2548741");
-//        controller.addSeed("http://www.ics.uci.edu/");
-
+        controller.addSeed("http://www.shuomingshuku.com/");
+        controller.addSeed("http://www.shuomingshuku.com/s/1-0-0-1-0-0.html");
+        controller.addSeed("http://www.shuomingshuku.com/s/2-0-0-1-0-0.html");
+        controller.addSeed("http://www.shuomingshuku.com/s/3-0-0-1-0-0.html");
+        controller.addSeed("http://www.shuomingshuku.com/s/4-0-0-1-0-0.html");
+        controller.addSeed("http://www.shuomingshuku.com/s/5-0-0-1-0-0.html");
+        controller.addSeed("http://www.shuomingshuku.com/s/6-0-0-1-0-0.html");
+        controller.addSeed("http://www.shuomingshuku.com/s/7-0-0-1-0-0.html");
+        controller.addSeed("http://www.shuomingshuku.com/s/8-0-0-1-0-0.html");
+        
+        controller.addSeed("http://www.manuallib.com//");
+        controller.addSeed("http://www.manuallib.com//s/1-0-0-1-0-0.html");
+        controller.addSeed("http://www.manuallib.com//s/2-0-0-1-0-0.html");
+        controller.addSeed("http://www.manuallib.com//s/3-0-0-1-0-0.html");
+        controller.addSeed("http://www.manuallib.com//s/4-0-0-1-0-0.html");
+        controller.addSeed("http://www.manuallib.com//s/5-0-0-1-0-0.html");
+        controller.addSeed("http://www.manuallib.com//s/6-0-0-1-0-0.html");
+        controller.addSeed("http://www.manuallib.com//s/7-0-0-1-0-0.html");
+        controller.addSeed("http://www.manuallib.com//s/8-0-0-1-0-0.html");
         /*
          * Start the crawl. This is a blocking operation, meaning that your code
          * will reach the line after this only when crawling is finished.
