@@ -15,7 +15,7 @@ public class DownLoad {
 	public static void main(String[] args) throws SQLException, ClassNotFoundException{
 
 		
-		ExecutorService threadPool = Executors.newFixedThreadPool(20);		  
+		ExecutorService threadPool = Executors.newFixedThreadPool(30);		  
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/crossp?"
 				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
@@ -33,7 +33,7 @@ public class DownLoad {
 				id = sets.getInt("id");
 				splits = sets.getString("name").split(">");
 				name = id + "_"+ splits[splits.length - 1].trim() + ".pdf";
-				name = name.replaceAll("/", "_");
+				name = name.replaceAll("/", "_").replaceAll("\\*", "-");
 				downloadlink1 = sets.getString("downloadlink1");
 				threadPool.execute(new DownLoadWork(id, name, downloadlink1));					
 			} catch (Exception e) {

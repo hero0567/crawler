@@ -30,12 +30,12 @@ public class DownLoadWork extends Thread {
 	 * @param urlStr
 	 * @param fileName
 	 * @param savePath
-	 * @throws IOException
+	 * @throws Exception 
 	 */
-	public void downLoadFromUrl(String urlStr, String fileName, String savePath) throws IOException {
+	public void downLoadFromUrl(String urlStr, String fileName, String savePath) throws Exception {
 		URL url = new URL(urlStr);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setConnectTimeout(3 * 1000);
+		conn.setConnectTimeout(30 * 1000);
 		conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
 
 		InputStream inputStream = conn.getInputStream();
@@ -53,6 +53,11 @@ public class DownLoadWork extends Thread {
 		}
 		if (inputStream != null) {
 			inputStream.close();
+		}
+		
+		if (file.length() < 1024 * 2){
+			file.delete();
+			throw new Exception("file to small");
 		}
 
 		System.out.println("info:" + url + " download success");
