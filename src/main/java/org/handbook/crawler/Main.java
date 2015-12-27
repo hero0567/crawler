@@ -1,11 +1,12 @@
 package org.handbook.crawler;
 
+import java.io.File;
 import java.util.regex.Pattern;
 
 public class Main {
 
-	public static void main(String[] args){
-		boolean x = Pattern.compile(".*(css|js|gif|jpg|png|mp3|mp3|zip|/|gz|html)$").matcher("http://www.facebook.com/").matches();
-		System.out.println(x);
+	public static void main(String[] args) {
+		String s = "asdfasdf/asdfasd/asdfa/sdf/asdf".replaceAll("/", "_");
+		System.out.println(s);
 	}
 }

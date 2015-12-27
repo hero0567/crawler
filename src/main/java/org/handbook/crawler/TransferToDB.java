@@ -22,9 +22,16 @@ public class TransferToDB {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(url);
+			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
-			// test(stmt);
-			saveFileToDB(stmt, "./crasler6740938526464");
+			
+			File data = new File("./data");
+			File[] fs = data.listFiles();
+			for (int i = 0; i < fs.length; i++) {
+				System.out.println(fs[i].getAbsolutePath());
+				saveFileToDB(stmt, fs[i]);
+				conn.commit();	
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -32,20 +39,9 @@ public class TransferToDB {
 		} finally {
 			conn.close();
 		}
-
 	}
 
-	public static void test(Statement stmt) throws SQLException {
-		String sql = "select * from handbook";
-		ResultSet rs = stmt.executeQuery(sql);
-		while (rs.next()) {
-			System.out.println(rs.getString(1) + "\t" + rs.getString(2));
-		}
-	}
-
-	public static void saveFileToDB(Statement stmt, String filePath) throws Exception {
-
-		File file = new File(filePath);
+	public static void saveFileToDB(Statement stmt, File file) throws Exception {
 		if (file.isFile() && file.exists()) {
 			InputStreamReader read = new InputStreamReader(new FileInputStream(file), "UTF-8");
 			BufferedReader reader = new BufferedReader(read);
@@ -59,28 +55,32 @@ public class TransferToDB {
 			while ((line = reader.readLine()) != null) {
 				String[] splits = line.split(";");
 				if (splits.length < 10) {
+					System.out.println("Skip :" + line);
 					continue;
 				}
-				url = splits[0];
-				name = splits[1];
-				company = splits[2];
-				filetype = splits[3];
-				filesize = splits[4];
-				updatetime = splits[5];
-				filemd5 = splits[6];
-				downloadcount = splits[7];
-				downloadlink1 = splits[8];
-				downloadlink2 = splits[9];
+				url = splits[0].trim();
+				name = splits[1].trim().replaceAll("\"", "\\\\\"");
+				company = splits[2].trim();
+				filetype = splits[3].trim();
+				filesize = splits[4].trim();
+				updatetime = splits[5].trim();
+				filemd5 = splits[6].trim();
+				downloadcount = splits[7].trim();
+				downloadlink1 = splits[8].trim();
+				downloadlink2 = splits[9].trim();
 
 				buffer.setLength(0);
-				buffer.append(sql).append("'").append(url).append("','").append(name).append("','").append(company)
-						.append("','").append(filetype).append("','").append(filesize).append("','").append(updatetime)
-						.append("','").append(filemd5).append("','").append(downloadcount).append("','")
-						.append(downloadlink1).append("','").append(downloadlink2).append("')");
+				buffer.append(sql).append("\"").append(url).append("\",\"").append(name).append("\",\"").append(company)
+						.append("\",\"").append(filetype).append("\",\"").append(filesize).append("\",\"").append(updatetime)
+						.append("\",\"").append(filemd5).append("\",\"").append(downloadcount).append("\",\"")
+						.append(downloadlink1).append("\",\"").append(downloadlink2).append("\")");
 
-				System.out.println(buffer.toString());
+//				System.out.println("Data:" + line);
+//				System.out.println("SQL:" + buffer.toString());
+//				stmt.addBatch(sql);
 				stmt.executeUpdate(buffer.toString());
 			}
+//			stmt.executeBatch();
 			reader.close();
 			read.close();
 		}
