@@ -17,7 +17,7 @@ public class DownLoad {
 		
 		ExecutorService threadPool = Executors.newFixedThreadPool(30);		  
 		Connection conn = null;
-		String url = "jdbc:mysql://localhost:3306/crossp?"
+		String url = "jdbc:mysql://localhost:3306/wmanual?"
 				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
 
 		Class.forName("com.mysql.jdbc.Driver");

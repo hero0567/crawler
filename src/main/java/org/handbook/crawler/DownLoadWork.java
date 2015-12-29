@@ -82,7 +82,7 @@ public class DownLoadWork extends Thread {
 		System.out.println("start a new task for id :" + id);
 		
 		Connection conn = null;
-		String url = "jdbc:mysql://localhost:3306/crossp?"
+		String url = "jdbc:mysql://localhost:3306/wmanual?"
 				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
 
 			
