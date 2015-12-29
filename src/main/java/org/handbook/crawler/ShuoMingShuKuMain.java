@@ -6,7 +6,7 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
-public class Controller {
+public class ShuoMingShuKuMain {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "./crawler";
         int numberOfCrawlers = 20;
@@ -50,6 +50,6 @@ public class Controller {
          * Start the crawl. This is a blocking operation, meaning that your code
          * will reach the line after this only when crawling is finished.
          */
-        controller.start(HandBookCrawler.class, numberOfCrawlers);
+        controller.start(ShuoMingShuKuCrawler.class, numberOfCrawlers);
     }
 }

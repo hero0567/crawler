@@ -43,7 +43,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>org.handbook.crawler.DownLoad</mainClass>
+                            <mainClass>org.handbook.crawler.DownLoadMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -14,7 +14,7 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-public class HandBookCrawler extends WebCrawler {
+public class ShuoMingShuKuCrawler extends WebCrawler {
 
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
                                                            + "|png|mp3|mp3|zip|gz))$");
@@ -26,7 +26,7 @@ public class HandBookCrawler extends WebCrawler {
 	private FileOutputStream fs = null;
 	private PrintStream p = null;
 	
-	public HandBookCrawler(){
+	public ShuoMingShuKuCrawler(){
         urls.add("http://www.shuomingshuku.com/");
         urls.add("http://www.manuallib.com/");
         

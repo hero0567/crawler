@@ -8,9 +8,8 @@ import java.sql.Statement;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DownLoad {
-	
-
+public class DownLoadMain {
+ 
 	
 	public static void main(String[] args) throws SQLException, ClassNotFoundException{
 
@@ -35,7 +34,7 @@ public class DownLoad {
 				name = id + "_"+ splits[splits.length - 1].trim() + ".pdf";
 				name = name.replaceAll("/", "_").replaceAll("\\*", "-");
 				downloadlink1 = sets.getString("downloadlink1");
-				threadPool.execute(new DownLoadWork(id, name, downloadlink1));					
+				threadPool.execute(new DownLoadWork(id, name, downloadlink1));				
 			} catch (Exception e) {
 				System.out.println("Download Failed:" + id + " : " + name + ":" + downloadlink1);
 				e.printStackTrace();
