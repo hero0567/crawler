@@ -1,4 +1,4 @@
-package org.handbook.crawler;
+package org.handbook.crawler.meidi;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,25 +14,24 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-public class HuaJunCrawler extends WebCrawler {
+public class MaiDiCrawler extends WebCrawler {
 
     private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg"
-                                                           + "|png|mp3|mp3|exe|zip|gz))$");
+                                                           + "|png|mp3|mp3|zip|gz))$");
     
-	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|jpg|xml|=index|/zp|php|png|mp3|exe|mp3|gz|/|html|htm|\\d)$");
+	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|jpg|png|mp3|zip|gz|/|html|\\d)$");
 	
 	private List<String> urls = new ArrayList<String>();
 	
 	private FileOutputStream fs = null;
 	private PrintStream p = null;
 	
-	public HuaJunCrawler(){
-        urls.add("http://manual.newhua.com/");
-        urls.add("http://www.onlinedown.net/");
+	public MaiDiCrawler(){
+        urls.add("http://mall.midea.com");
+        
        
         try {
-//        	String fname = "./hjcrasler" + System.nanoTime();
-        	String fname = "./hjcrasler";
+        	String fname = "./crasler" + System.nanoTime();
 			fs = new FileOutputStream(new File(fname));
 			p = new PrintStream(fs);
 			
@@ -96,22 +95,29 @@ public class HuaJunCrawler extends WebCrawler {
          b.append(url).append(";");
          if (page.getParseData() instanceof HtmlParseData) {
              HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-             String text = htmlParseData.getText();           
-             
-             String html = htmlParseData.getHtml();
              Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-             System.out.println("Text length: " + text.length());
-             System.out.println("Html length: " + html.length());
-             System.out.println("Number of outgoing links: " + links.size()); 
              boolean doc = false;
+             boolean hasPDF = false;
              for(WebURL link : links){
-         		doc = !DOC_FILTERS.matcher(link.getURL()).matches();         		
-         	 	if (doc){
-     	 			System.out.println("DLink: " + link.getURL());
-     	 			p.println(link.getURL());
-         	 	}            		 
-              }
+        		doc = !DOC_FILTERS.matcher(link.getURL()).matches();        		
+        	 	if (doc){
+    	 			b.append(link.getURL()).append(";");
+    	 			System.out.println("  link: " + link.getURL());
+    	 			if (link.getURL().endsWith(".pdf")){
+    	 				hasPDF = true;
+    	 				break;
+    	 			}
+        	 	}            		 
+             }
+             
+             if (hasPDF){
+            	 String html = htmlParseData.getHtml();
+            	 String text = htmlParseData.getText();
+            	 String title = htmlParseData.getTitle();
+            	 System.out.println("  title: " + title);
+             }
          }
+         p.println(b);
     }
 }
