@@ -1,4 +1,4 @@
-package org.handbook.crawler.meidi;
+package org.handbook.crawler.haier;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,7 +14,7 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-public class MaiDiCrawler extends WebCrawler {
+public class HaierCrawler extends WebCrawler {
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg" + "|png|mp3|mp3|zip|gz))$");
 
@@ -25,7 +25,7 @@ public class MaiDiCrawler extends WebCrawler {
 	private FileOutputStream fs = null;
 	private PrintStream p = null;
 
-	public MaiDiCrawler() {
+	public HaierCrawler() {
 		urls.add("http://mall.midea.com");
 
 		try {
