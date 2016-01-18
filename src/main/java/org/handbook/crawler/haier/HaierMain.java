@@ -9,7 +9,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class HaierMain {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "./crawler";
-        int numberOfCrawlers = 20;
+        int numberOfCrawlers = 1;
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
@@ -28,7 +28,7 @@ public class HaierMain {
          * which are found in these pages
          */
 //        controller.addSeed("http://mall.midea.com");
-        controller.addSeed("http://mall.midea.com");
+        controller.addSeed("http://www.haier.com/cn/consumer/air_conditioners/gskt/201512/t20151201_292922.shtml");
         
         /*
          * Start the crawl. This is a blocking operation, meaning that your code

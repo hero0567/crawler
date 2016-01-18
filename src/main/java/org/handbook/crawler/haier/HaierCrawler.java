@@ -18,7 +18,7 @@ public class HaierCrawler extends WebCrawler {
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg" + "|png|mp3|mp3|zip|gz))$");
 
-	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|png|mp3|zip|gz|/|html|\\d)$");
+	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|png|mp3|zip|gz|/|\\d)$");
 
 	private List<String> urls = new ArrayList<String>();
 
@@ -26,7 +26,7 @@ public class HaierCrawler extends WebCrawler {
 	private PrintStream p = null;
 
 	public HaierCrawler() {
-		urls.add("http://mall.midea.com");
+		urls.add("http://www.haier.com/cn/");
 
 		try {
 			String fname = "./crasler" + System.nanoTime();
@@ -105,28 +105,28 @@ public class HaierCrawler extends WebCrawler {
 				}
 			}
 
-			if (hasPDF) {
-				String title = htmlParseData.getTitle();
-				System.out.println("  title: " + title);
-				String text = htmlParseData.getText();
-				String[] arr = text.split("\n");
-				for (int i = 0; i < arr.length; i++) {
-					String s = arr[i];
-					if (s.indexOf("首页") > 0) {
-						System.out.println(s);
-						System.out.println(arr[i + 1]);
-						System.out.println(arr[i + 2]);
-						System.out.println(arr[i + 3]);
-						headers.append(s.trim()).append(",").append(arr[i + 1].trim()).append(",")
-								.append(arr[i + 2].trim()).append(",").append(arr[i + 3].trim()).append(",")
-								.append(arr[i + 4].trim());
-						break;
-					}
-				}
-				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
-						.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
-				p.println(b);
-			}
+//			if (hasPDF) {
+//				String title = htmlParseData.getTitle();
+//				System.out.println("  title: " + title);
+//				String text = htmlParseData.getText();
+//				String[] arr = text.split("\n");
+//				for (int i = 0; i < arr.length; i++) {
+//					String s = arr[i];
+//					if (s.indexOf("首页") > 0) {
+//						System.out.println(s);
+//						System.out.println(arr[i + 1]);
+//						System.out.println(arr[i + 2]);
+//						System.out.println(arr[i + 3]);
+//						headers.append(s.trim()).append(",").append(arr[i + 1].trim()).append(",")
+//								.append(arr[i + 2].trim()).append(",").append(arr[i + 3].trim()).append(",")
+//								.append(arr[i + 4].trim());
+//						break;
+//					}
+//				}
+//				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
+//						.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
+//				p.println(b);
+//			}
 		}
 
 	}
