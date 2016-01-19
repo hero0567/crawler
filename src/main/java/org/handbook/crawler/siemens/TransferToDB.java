@@ -1,4 +1,4 @@
-package org.handbook.crawler.meidi;
+package org.handbook.crawler.siemens;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,7 +22,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./meidi");
+			File data = new File("./siemens");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -44,8 +44,8 @@ public class TransferToDB {
 			BufferedReader reader = new BufferedReader(read);
 			String line;
 			String url = null, title = null, pdfurl = null, jpgURLs = null;
-			String headers = null;
-			String sql = "insert into crawler_meidi  (url, title, pdfurl, jpgurl, header)  values(";
+			String info = null;
+			String sql = "insert into crawler_siemens (url, title, pdfurl, jpgurl, info)  values(";
 			StringBuffer buffer = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				String[] splits = line.split(";");
@@ -59,11 +59,11 @@ public class TransferToDB {
 				title = splits[1].trim();
 				pdfurl = splits[2].trim();				
 				jpgURLs = splits[3].trim();				
-				headers = splits[4].trim();
+				info = splits[4].trim();
 
 				buffer.setLength(0);
 				buffer.append(sql).append("\"").append(url).append("\",\"").append(title).append("\",\"").append(pdfurl)
-						.append("\",\"").append(jpgURLs).append("\",\"").append(headers).append("\")");
+						.append("\",\"").append(jpgURLs).append("\",\"").append(info).append("\")");
 
 //				System.out.println("Data:" + line);
 //				System.out.println("SQL:" + buffer.toString());
