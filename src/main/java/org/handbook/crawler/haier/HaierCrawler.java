@@ -81,7 +81,6 @@ public class HaierCrawler extends WebCrawler {
 		System.out.println("URL: " + url);
 		StringBuilder b = new StringBuilder();
 		StringBuilder jpgURLs = new StringBuilder();
-		StringBuilder headers = new StringBuilder();
 
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
@@ -90,6 +89,7 @@ public class HaierCrawler extends WebCrawler {
 			boolean doc = false;
 			boolean hasPDF = false;
 			String pdfURL = "";
+			String info = "";
 			for (WebURL link : links) {
 				String l = link.getURL();
 				doc = !DOC_FILTERS.matcher(l).matches();
@@ -105,28 +105,23 @@ public class HaierCrawler extends WebCrawler {
 				}
 			}
 
-//			if (hasPDF) {
-//				String title = htmlParseData.getTitle();
-//				System.out.println("  title: " + title);
-//				String text = htmlParseData.getText();
-//				String[] arr = text.split("\n");
-//				for (int i = 0; i < arr.length; i++) {
-//					String s = arr[i];
-//					if (s.indexOf("首页") > 0) {
-//						System.out.println(s);
-//						System.out.println(arr[i + 1]);
-//						System.out.println(arr[i + 2]);
-//						System.out.println(arr[i + 3]);
-//						headers.append(s.trim()).append(",").append(arr[i + 1].trim()).append(",")
-//								.append(arr[i + 2].trim()).append(",").append(arr[i + 3].trim()).append(",")
-//								.append(arr[i + 4].trim());
-//						break;
-//					}
-//				}
-//				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
-//						.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
-//				p.println(b);
-//			}
+			if (hasPDF) {
+				String title = htmlParseData.getTitle();
+				System.out.println("  title: " + title);
+				String text = htmlParseData.getText();
+				String[] arr = text.split("\n");
+				for (int i = 0; i < arr.length; i++) {
+					String s = arr[i];
+					if (s.indexOf("文件名") > 0) {
+						System.out.println(s);
+						info = s;
+						break;
+					}
+				}
+				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
+						.append(jpgURLs.toString()).append(";").append(info).append(";");
+				p.println(b);
+			}
 		}
 
 	}
