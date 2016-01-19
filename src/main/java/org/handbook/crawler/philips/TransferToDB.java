@@ -22,7 +22,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./meidi");
+			File data = new File("./philips");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -45,11 +45,11 @@ public class TransferToDB {
 			String line;
 			String url = null, title = null, pdfurl = null, jpgURLs = null;
 			String headers = null;
-			String sql = "insert into crawler_meidi  (url, title, pdfurl, jpgurl, header)  values(";
+			String sql = "insert into crawler_philips (url, title, pdfurl, jpgurl)  values(";
 			StringBuffer buffer = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				String[] splits = line.split(";");
-				if (splits.length < 5) {
+				if (splits.length < 4) {
 					System.out.println("Skip :" + line);
 					continue;
 				}
@@ -58,12 +58,11 @@ public class TransferToDB {
 				url = splits[0].trim();
 				title = splits[1].trim();
 				pdfurl = splits[2].trim();				
-				jpgURLs = splits[3].trim();				
-				headers = splits[4].trim();
+				jpgURLs = splits[3].trim();		
 
 				buffer.setLength(0);
 				buffer.append(sql).append("\"").append(url).append("\",\"").append(title).append("\",\"").append(pdfurl)
-						.append("\",\"").append(jpgURLs).append("\",\"").append(headers).append("\")");;
+						.append("\",\"").append(jpgURLs).append("\")");
 
 //				System.out.println("Data:" + line);
 //				System.out.println("SQL:" + buffer.toString());
