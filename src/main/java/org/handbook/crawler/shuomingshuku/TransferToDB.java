@@ -1,4 +1,4 @@
-package org.handbook.crawler;
+package org.handbook.crawler.shuomingshuku;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -25,7 +25,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./data");
+			File data = new File("./shuomingshuku");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -60,21 +60,21 @@ public class TransferToDB {
 				}
 				url = splits[0].trim();
 				name = splits[1].trim().replaceAll("\"", "\\\\\"");
-				company = splits[2].trim();
-				filetype = splits[3].trim();
+				company = splits[2].trim().replaceAll("\"", "\\\\\"");
+				filetype = splits[3].trim().replaceAll("\"", "\\\\\"");
 				filesize = splits[4].trim();
 				updatetime = splits[5].trim();
 				filemd5 = splits[6].trim();
 				downloadcount = splits[7].trim();
 				downloadlink1 = splits[8].trim();
-				downloadlink2 = splits[9].trim();
+				downloadlink2 = splits[9].trim().replaceAll("\"", "\\\\\"");
 
 				buffer.setLength(0);
 				buffer.append(sql).append("\"").append(url).append("\",\"").append(name).append("\",\"").append(company)
 						.append("\",\"").append(filetype).append("\",\"").append(filesize).append("\",\"").append(updatetime)
 						.append("\",\"").append(filemd5).append("\",\"").append(downloadcount).append("\",\"")
 						.append(downloadlink1).append("\",\"").append(downloadlink2).append("\")");
-
+//
 //				System.out.println("Data:" + line);
 //				System.out.println("SQL:" + buffer.toString());
 //				stmt.addBatch(sql);

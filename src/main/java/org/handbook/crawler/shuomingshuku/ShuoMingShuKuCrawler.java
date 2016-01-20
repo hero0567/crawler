@@ -1,4 +1,4 @@
-package org.handbook.crawler;
+package org.handbook.crawler.shuomingshuku;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,13 +23,17 @@ public class ShuoMingShuKuCrawler extends WebCrawler {
 	
 	private List<String> urls = new ArrayList<String>();
 	
+	private List<Pattern> urlsPattern = new ArrayList<Pattern>();
+	
 	private FileOutputStream fs = null;
 	private PrintStream p = null;
 	
 	public ShuoMingShuKuCrawler(){
-        urls.add("http://www.shuomingshuku.com/");
-        urls.add("http://www.manuallib.com/");
+        urls.add("http://www.shuomingshuku.com/s/2-0-0");
+        urls.add("http://www.shuomingshuku.com/file");
         
+        urlsPattern.add(Pattern.compile("http://www.shuomingshuku.com/s/2-0-0-\\d*-37-0.html"));
+        urlsPattern.add(Pattern.compile("http://www.shuomingshuku.com/file.*"));
        
         try {
         	String fname = "./crasler" + System.nanoTime();
@@ -59,8 +63,13 @@ public class ShuoMingShuKuCrawler extends WebCrawler {
          
          boolean filter = !FILTERS.matcher(href).matches();                  
          if (filter){
-        	 for(String u : urls ){
-        		 if (href.startsWith(u)){
+//        	 for(String u : urls ){
+//        		 if (href.startsWith(u)){
+//        			 return true;
+//        		 }
+//        	 }
+        	 for(Pattern u : urlsPattern ){
+        		 if (u.matcher(href).matches()){
         			 return true;
         		 }
         	 }
@@ -97,30 +106,30 @@ public class ShuoMingShuKuCrawler extends WebCrawler {
          if (page.getParseData() instanceof HtmlParseData) {
              HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
              String text = htmlParseData.getText();
+             String title = htmlParseData.getTitle();
              String[] arr = text.split("\n");
              if (url.startsWith("http://www.manuallib.com")){
             	 for(String s : arr){
                 	 if (s.indexOf("Home >") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("Company") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("File format") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("File size") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("MDS Checksum") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("File MD5") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("Downloads") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
                 		 break;
                 	 }
                  }
@@ -128,31 +137,30 @@ public class ShuoMingShuKuCrawler extends WebCrawler {
             	 for(String s : arr){
                 	 if (s.indexOf("首页 >") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("厂商") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("文件类型") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("文件大小") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("上传时间") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("文件校验") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 	 }else if (s.indexOf("下载统计") > 0 ){
                 		 b.append(s).append(";");
-                		 System.out.println(s);
+                		 
                 		 break;
                 	 }
                  }
              }
-             
-             String html = htmlParseData.getHtml();
+             b.append(";").append(title);
              Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
 //             System.out.println("Text length: " + text.length());

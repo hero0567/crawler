@@ -26,7 +26,7 @@ public class PanasonicCrawler extends WebCrawler {
 	private PrintStream p = null;
 
 	public PanasonicCrawler() {
-		urls.add("http://consumer.panasonic.cn/product/viera-televisions/led-tv/th-55cx500c.html".toLowerCase());
+		urls.add("http://consumer.panasonic.cn".toLowerCase());
 		try {
 			String fname = "./crasler" + System.nanoTime();
 			fs = new FileOutputStream(new File(fname));
