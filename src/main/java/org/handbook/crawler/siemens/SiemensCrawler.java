@@ -26,7 +26,8 @@ public class SiemensCrawler extends WebCrawler {
 	private PrintStream p = null;
 
 	public SiemensCrawler() {
-		urls.add("http://www.siemens-home.cn/productlist/cooking/hobs/ER55K955MF?breadcrumb=gas#/tab-tab-0".toLowerCase());
+		urls.add("http://www.siemens-home.cn/products".toLowerCase());
+		urls.add("http://www.siemens-home.cn/productlist".toLowerCase());
 		try {
 			String fname = "./crasler" + System.nanoTime();
 			fs = new FileOutputStream(new File(fname));
@@ -75,7 +76,7 @@ public class SiemensCrawler extends WebCrawler {
 	@Override
 	public void visit(Page page) {
 		String url = page.getWebURL().getURL();
-		System.out.println("URL: " + url);
+//		System.out.println("URL: " + url);
 		StringBuilder b = new StringBuilder();
 		StringBuilder jpgURLs = new StringBuilder();
 		StringBuilder headers = new StringBuilder();
