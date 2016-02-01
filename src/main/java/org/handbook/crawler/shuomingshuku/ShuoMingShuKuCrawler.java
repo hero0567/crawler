@@ -29,10 +29,18 @@ public class ShuoMingShuKuCrawler extends WebCrawler {
 	private PrintStream p = null;
 	
 	public ShuoMingShuKuCrawler(){
-        urls.add("http://www.shuomingshuku.com/s/2-0-0");
-        urls.add("http://www.shuomingshuku.com/file");
+		//家用电器
+		//        urls.add("http://www.shuomingshuku.com/s/2-0-0");
+		//        urls.add("http://www.shuomingshuku.com/file");
+		//        
+		//        urlsPattern.add(Pattern.compile("http://www.shuomingshuku.com/s/2-0-0-\\d*-37-0.html"));
+		//        urlsPattern.add(Pattern.compile("http://www.shuomingshuku.com/file.*"));
         
-        urlsPattern.add(Pattern.compile("http://www.shuomingshuku.com/s/2-0-0-\\d*-37-0.html"));
+        //手机数码
+		urls.add("http://www.shuomingshuku.com/s/1-0-0");
+		urls.add("http://www.shuomingshuku.com/file");
+		
+        urlsPattern.add(Pattern.compile("http://www.shuomingshuku.com/s/1-0-0-\\d*-0-0.html"));
         urlsPattern.add(Pattern.compile("http://www.shuomingshuku.com/file.*"));
        
         try {

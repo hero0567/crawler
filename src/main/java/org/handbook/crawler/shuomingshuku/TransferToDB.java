@@ -25,7 +25,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./shuomingshuku");
+			File data = new File("./shuomingshuku_dajiadian");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -49,7 +49,7 @@ public class TransferToDB {
 			String url = null, name = null, company = null, filetype = null;
 			String filesize = null, updatetime = null, filemd5 = null;
 			String downloadcount = null, downloadlink1 = null, downloadlink2 = null;
-			String sql = "insert into crawler_data  (url, name, company, filetype, filesize,"
+			String sql = "insert into crawler_shuomingshuku_dajiadian  (url, name, company, filetype, filesize,"
 					+ " updatetime, filemd5, downloadcount,downloadlink1,downloadlink2)  values(";
 			StringBuffer buffer = new StringBuffer();
 			while ((line = reader.readLine()) != null) {

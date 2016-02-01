@@ -27,7 +27,11 @@ public class ShuoMingShuKuMain {
          * URLs that are fetched and then the crawler starts following links
          * which are found in these pages
          */
-        controller.addSeed("http://www.shuomingshuku.com/s/2-0-0-1-37-0.html");
+        //家用电器
+        //        controller.addSeed("http://www.shuomingshuku.com/s/2-0-0-1-37-0.html");
+        //手机数码
+        controller.addSeed("http://www.shuomingshuku.com/s/1-0-0-1-0-0.html");
+        
         /*
          * Start the crawl. This is a blocking operation, meaning that your code
          * will reach the line after this only when crawling is finished.

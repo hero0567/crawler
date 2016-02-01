@@ -13,5 +13,12 @@ public class Main {
 		boolean filter = FILTERS.matcher(s1).matches();
 		
 		System.out.println(filter);
+		
+		
+		String name = "";
+		name = name.trim().replaceAll("\"", "\\\\\"");
+		
+		System.out.println(filter);
+		
 	}
 }
