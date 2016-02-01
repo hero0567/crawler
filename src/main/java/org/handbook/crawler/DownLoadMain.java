@@ -14,7 +14,7 @@ public class DownLoadMain {
 	public static void main(String[] args) throws SQLException, ClassNotFoundException{
 
 		
-		ExecutorService threadPool = Executors.newFixedThreadPool(30);		  
+		ExecutorService threadPool = Executors.newFixedThreadPool(5);		  
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/wmanual?"
 				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
@@ -22,9 +22,9 @@ public class DownLoadMain {
 		Class.forName("com.mysql.jdbc.Driver");
 		conn = DriverManager.getConnection(url);
 		Statement stmt = conn.createStatement();
-		String sql = "select id, name,downloadlink1 from crawler_data where (name like '首页 > 家用电器%' or name like 'Home > Electronics%') and download is false";
+		String sql = "select id, name,url, owner from handbook_download where owner != 'shuomingshuku' and status = 0";
 		ResultSet sets = stmt.executeQuery(sql);
-		String name= null, downloadlink1=null;
+		String name= null, downloadlink1=null, owner = "";
 		String[] splits = null;
 		int id = 0;
 		while (sets.next()){			
@@ -33,8 +33,9 @@ public class DownLoadMain {
 				splits = sets.getString("name").split(">");
 				name = id + "_"+ splits[splits.length - 1].trim() + ".pdf";
 				name = name.replaceAll("/", "_").replaceAll("\\*", "-");
-				downloadlink1 = sets.getString("downloadlink1");
-				threadPool.execute(new DownLoadWork(id, name, downloadlink1));				
+				downloadlink1 = sets.getString("url");
+				owner = sets.getString("owner");
+				threadPool.execute(new DownLoadWork(id, name, downloadlink1, owner));				
 			} catch (Exception e) {
 				System.out.println("Download Failed:" + id + " : " + name + ":" + downloadlink1);
 				e.printStackTrace();

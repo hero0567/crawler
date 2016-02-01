@@ -17,11 +17,13 @@ public class DownLoadWork extends Thread {
 	private int id; 
 	private String name; 
 	private String downloadlink1;
+	private String owner;
 	
-	public DownLoadWork(int id, String name, String downloadlink1){
+	public DownLoadWork(int id, String name, String downloadlink1, String owner){
 		this.id = id;
 		this.name = name;
 		this.downloadlink1 = downloadlink1;
+		this.owner = owner;
 	}
 	
 	/**
@@ -90,9 +92,9 @@ public class DownLoadWork extends Thread {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(url);
-			String updateSql = "update crawler_data set download = ?, filename= ? where id = ?";	
+			String updateSql = "update handbook_download set status = ?, tags= ? where id = ?";	
 			pstmt = (PreparedStatement) conn.prepareStatement(updateSql);
-			downLoadFromUrl(downloadlink1, name, "download/");			
+			downLoadFromUrl(downloadlink1, name, "download/" + owner + "/");			
 			pstmt.setInt(1, 1);
 	        pstmt.setString(2, name);
 	        pstmt.setInt(3, id);
