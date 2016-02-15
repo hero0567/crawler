@@ -48,4 +48,6 @@
   <classpathentry kind="var" path="M2_REPO/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/uwyn/jhighlight/1.0/jhighlight-1.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/aliyun/aliyun-java-sdk-sts/2.1.6/aliyun-java-sdk-sts-2.1.6.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/aliyun/aliyun-java-sdk-core/2.1.7/aliyun-java-sdk-core-2.1.7.jar"/>
 </classpath>
