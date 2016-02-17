@@ -9,7 +9,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class SamsungMain {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "./crawler";
-        int numberOfCrawlers = 1;
+        int numberOfCrawlers = 20;
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
@@ -29,21 +29,21 @@ public class SamsungMain {
          */
 //        controller.addSeed("http://mall.midea.com");
         controller.addSeed("http://www.samsung.com/cn/consumer/mobile-phones/smart-phone");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/mobile-phones/tablets");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/mobile-phones/gear");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/mobile-phones/gear");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/tv-audio-video/home-audio");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/computers-office/ultra-mobile-pc");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/computers-office/monitors");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/computers-office/monitors");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/computers-office/camera-lens");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/refrigerators");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/washers-dryers");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/air-conditioners");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/plasma-air-purifier");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/rambo");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/memory/ssd");
-//        controller.addSeed("http://www.samsung.com/cn/consumer/memory/usb");
+        controller.addSeed("http://www.samsung.com/cn/consumer/mobile-phones/tablets");
+        controller.addSeed("http://www.samsung.com/cn/consumer/mobile-phones/gear");
+        controller.addSeed("http://www.samsung.com/cn/consumer/mobile-phones/gear");
+        controller.addSeed("http://www.samsung.com/cn/consumer/tv-audio-video/home-audio");
+        controller.addSeed("http://www.samsung.com/cn/consumer/computers-office/ultra-mobile-pc");
+        controller.addSeed("http://www.samsung.com/cn/consumer/computers-office/monitors");
+        controller.addSeed("http://www.samsung.com/cn/consumer/computers-office/monitors");
+        controller.addSeed("http://www.samsung.com/cn/consumer/computers-office/camera-lens");
+        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/refrigerators");
+        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/washers-dryers");
+        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/air-conditioners");
+        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/plasma-air-purifier");
+        controller.addSeed("http://www.samsung.com/cn/consumer/home-appliances/rambo");
+        controller.addSeed("http://www.samsung.com/cn/consumer/memory/ssd");
+        controller.addSeed("http://www.samsung.com/cn/consumer/memory/usb");
         
         
         /*

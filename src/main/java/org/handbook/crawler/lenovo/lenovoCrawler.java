@@ -1,4 +1,4 @@
-package org.handbook.crawler.samsung;
+package org.handbook.crawler.lenovo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,35 +14,22 @@ import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-public class SamsungCrawler extends WebCrawler {
+public class lenovoCrawler extends WebCrawler {
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|png|mp3|mp3|zip|gz))$");
 
-	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|mp3|zip|gz|/|html)$");
+	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|mp3|gz|/|html)$");
 
 	private List<String> urls = new ArrayList<String>();
 
 	private FileOutputStream fs = null;
 	private PrintStream p = null;
 
-	public SamsungCrawler() {
-		urls.add("http://www.samsung.com/cn/consumer/mobile-phones/smart-phone".toLowerCase());
-		urls.add("http://www.samsung.com/cn/consumer/mobile-phones/tablets");
-        urls.add("http://www.samsung.com/cn/consumer/mobile-phones/gear");
-        urls.add("http://www.samsung.com/cn/consumer/mobile-phones/gear");
-        urls.add("http://www.samsung.com/cn/consumer/tv-audio-video/home-audio");
-        urls.add("http://www.samsung.com/cn/consumer/computers-office/ultra-mobile-pc");
-        urls.add("http://www.samsung.com/cn/consumer/computers-office/monitors");
-        urls.add("http://www.samsung.com/cn/consumer/computers-office/monitors");
-        urls.add("http://www.samsung.com/cn/consumer/computers-office/camera-lens");
-        urls.add("http://www.samsung.com/cn/consumer/home-appliances/refrigerators");
-        urls.add("http://www.samsung.com/cn/consumer/home-appliances/washers-dryers");
-        urls.add("http://www.samsung.com/cn/consumer/home-appliances/air-conditioners");
-        urls.add("http://www.samsung.com/cn/consumer/home-appliances/plasma-air-purifier");
-        urls.add("http://www.samsung.com/cn/consumer/home-appliances/rambo");
-        urls.add("http://www.samsung.com/cn/consumer/memory/ssd");
-        urls.add("http://www.samsung.com/cn/consumer/memory/usb");
-        
+	public lenovoCrawler() {
+		urls.add("http://support.lenovo.com.cn/lenovo/wsi/htmls/detail".toLowerCase());
+		urls.add("http://support.lenovo.com.cn/lenovo/wsi/htmls/handbooklist.aspx?&keyword=");
+       
+		
 		try {
 			String fname = "./crasler" + System.nanoTime();
 			fs = new FileOutputStream(new File(fname));
@@ -102,25 +89,37 @@ public class SamsungCrawler extends WebCrawler {
 			boolean doc = false;
 			boolean hasPDF = false;
 			String pdfURL = "";
+			String idAndDate = "";
+			String pdfName="";
+			
 			for (WebURL link : links) {
 				String l = link.getURL().toLowerCase();
 				doc = !DOC_FILTERS.matcher(l).matches();
 				if (doc) {
-					System.out.println("  link: " + l);
-					if (l.endsWith("pdf")) {
+					if (l.endsWith("pdf") || l.endsWith("zip") || l.endsWith("7z")) {
 						hasPDF = true;
 						pdfURL = l;
-					}
-					if (l.endsWith("png") || l.endsWith("jpg")) {
-						jpgURLs.append(l).append(",");
 					}
 				}
 			}
 
 			if (hasPDF) {
+				if (htmlParseData.getText().indexOf("附加文档") > 0 ){
+					String[] arr = htmlParseData.getText().split("\n");
+					for (String line : arr){					
+						if (line.indexOf("文章编号") > 0){
+							idAndDate = line;
+						}
+						if (line.indexOf("附加文档") > 0){
+							pdfName = line;
+							break;
+						}
+					}
+				}
+				
 				String title = htmlParseData.getTitle();
 				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
-						.append(jpgURLs.toString()).append(";");
+						.append(idAndDate.toString()).append(";").append(pdfName.toString()).append(";");
 				p.println(b);
 			}
 		}
