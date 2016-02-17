@@ -13,6 +13,7 @@ public class StsServiceSample {
   // 目前只有"cn-hangzhou"这个region可用, 不要使用填写其他region的值
 //  public static final String REGION_CN_HANGZHOU = "cn-shenzhen";
 	public static final String REGION_CN_HANGZHOU = "cn-hangzhou";
+	public static final String OSS_SERVER = "levytest1.oss-cn-hangzhou.aliyuncs.com";
   // 当前 STS API 版本
   public static final String STS_API_VERSION = "2015-04-01";
 
@@ -89,7 +90,7 @@ public class StsServiceSample {
       System.out.println("Access Key Secret: " + response.getCredentials().getAccessKeySecret());
       System.out.println("Security Token: " + response.getCredentials().getSecurityToken());
       
-      System.out.println("aliyuncli oss Config --host oss.aliyuncs.com "
+      System.out.println("aliyuncli oss Config --host " + OSS_SERVER 
       			+ " --accessid " + response.getCredentials().getAccessKeyId()
       			+ " --accesskey " + response.getCredentials().getAccessKeySecret()
       			+ " --sts_token " + response.getCredentials().getSecurityToken());

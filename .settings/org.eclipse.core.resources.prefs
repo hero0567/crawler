@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/java/org/handbook/crawler/HuaJunMain.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/haier/HaierMain.java=UTF-8
+encoding//src/main/java/org/handbook/crawler/huawei/HuaweiMain.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/meidi/MeiDiMain.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/philips/PhilipsMain.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/shuomingshuku/ShuoMingShuKuMain.java=UTF-8
