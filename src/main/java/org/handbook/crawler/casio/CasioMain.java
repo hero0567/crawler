@@ -9,7 +9,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class CasioMain {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "./crawler";
-        int numberOfCrawlers = 10;
+        int numberOfCrawlers = 1;
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
@@ -30,7 +30,7 @@ public class CasioMain {
          */
 //        controller.addSeed("http://mall.midea.com");
         controller.addSeed("http://olympus-imaging.cn/support/download.php");
-        controller.addSeed("http://olympus-imaging.cn/support/download.php?flt=WXDD");
+//        controller.addSeed("http://olympus-imaging.cn/support/download.php?flt=WXDD");
         
         /*
          * Start the crawl. This is a blocking operation, meaning that your code

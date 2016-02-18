@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
+encoding//src/main/java/org/handbook/crawler/casio/CasioCrawler.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/sony/SonyCrawler.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/sony/SonyPostJsonMain.java=UTF-8
