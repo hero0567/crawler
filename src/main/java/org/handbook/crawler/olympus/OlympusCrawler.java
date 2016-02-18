@@ -65,8 +65,8 @@ public class OlympusCrawler extends WebCrawler {
 
 	/**
 	 * This function is called when a page is fetched and ready to be processed
-	 * by your program. 厂商: 飞利浦 文件类型: PDF 文件大�?: 324.17 KB 上传时间: 2012-05-02
-	 * 16:33:21 文件校验: 7188D0015E6D2DF4549C1095C5C52E15 下载统计: 2715
+	 * by your program. 鍘傚晢: 椋炲埄娴� 鏂囦欢绫诲瀷: PDF 鏂囦欢澶у�?: 324.17 KB 涓婁紶鏃堕棿: 2012-05-02
+	 * 16:33:21 鏂囦欢鏍￠獙: 7188D0015E6D2DF4549C1095C5C52E15 涓嬭浇缁熻: 2715
 	 * 
 	 * Home > Industrial> > Processors> Linear LTC3676 LTC3676-1 Processors
 	 * Datasheet Company: File format: PDF File size: 477.02 KB MDS Checksum:
@@ -85,39 +85,18 @@ public class OlympusCrawler extends WebCrawler {
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
 			boolean doc = false;
-			boolean hasPDF = false;
-			String pdfURL = "";
 			for (WebURL link : links) {
 				String l = link.getURL();
 				doc = !DOC_FILTERS.matcher(l).matches();
+				System.out.println("  link: " + l);
 				if (doc) {
-					System.out.println("  link: " + l);
-					if (l.toUpperCase().indexOf("PDFOBID") > 0) {
-						hasPDF = true;
-						pdfURL = l;
-					}
-					if (l.endsWith("png")) {
-						jpgURLs.append(l).append(",");
+					
+					if (l.startsWith("http://olympus-imaging.cn/support/m_dl.php")) {
+						p.println(url + ";" + l + ";");
 					}
 				}
 			}
 
-			if (hasPDF) {
-				String title = htmlParseData.getTitle();
-				String text = htmlParseData.getText();
-				String[] arr = text.split("\n");
-				for (int i = 0; i < arr.length; i++) {
-					String s = arr[i];
-					if (s.indexOf("首页产�?中心") > 0) {
-						System.out.println(s);
-						headers.append(s.trim());
-						break;
-					}
-				}
-				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
-				.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
-				p.println(b);
-			}
 		}
 
 	}

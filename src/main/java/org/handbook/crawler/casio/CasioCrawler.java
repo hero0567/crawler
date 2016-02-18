@@ -16,9 +16,9 @@ import edu.uci.ics.crawler4j.url.WebURL;
 
 public class CasioCrawler extends WebCrawler {
 
-	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|png|mp3|mp3|zip|gz))$");
+	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg" + "|png|mp3|mp3|zip|gz))$");
 
-	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|mp3|zip|gz|/|html)$");
+	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|png|mp3|zip|gz|/|\\d)$");
 
 	private List<String> urls = new ArrayList<String>();
 
@@ -26,7 +26,8 @@ public class CasioCrawler extends WebCrawler {
 	private PrintStream p = null;
 
 	public CasioCrawler() {
-		urls.add("http://olympus-imaging.cn/support/download.php".toLowerCase());
+		urls.add("http://support.casio.com/cn/manual/manualfile.php");
+
 		try {
 			String fname = "./crasler" + System.nanoTime();
 			fs = new FileOutputStream(new File(fname));
@@ -52,20 +53,22 @@ public class CasioCrawler extends WebCrawler {
 	@Override
 	public boolean shouldVisit(Page referringPage, WebURL url) {
 		String href = url.getURL().toLowerCase();
+
 		boolean filter = !FILTERS.matcher(href).matches();
 		if (filter) {
 			for (String u : urls) {
-				if (href.toLowerCase().startsWith(u)) {
+				if (href.startsWith(u)) {
 					return true;
 				}
 			}
 		}
 		return false;
+
 	}
 
 	/**
 	 * This function is called when a page is fetched and ready to be processed
-	 * by your program. 鍘傚晢: 椋炲埄娴� 鏂囦欢绫诲瀷: PDF 鏂囦欢澶у�?: 324.17 KB 涓婁紶鏃堕棿: 2012-05-02
+	 * by your program. 鍘傚晢: 椋炲埄娴� 鏂囦欢绫诲瀷: PDF 鏂囦欢澶у皬: 324.17 KB 涓婁紶鏃堕棿: 2012-05-02
 	 * 16:33:21 鏂囦欢鏍￠獙: 7188D0015E6D2DF4549C1095C5C52E15 涓嬭浇缁熻: 2715
 	 * 
 	 * Home > Industrial> > Processors> Linear LTC3676 LTC3676-1 Processors
@@ -75,28 +78,35 @@ public class CasioCrawler extends WebCrawler {
 	@Override
 	public void visit(Page page) {
 		String url = page.getWebURL().getURL();
-//		System.out.println("URL: " + url);
+		System.out.println("URL: " + url);
 		StringBuilder b = new StringBuilder();
 		StringBuilder jpgURLs = new StringBuilder();
-		StringBuilder headers = new StringBuilder();
-		
+
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
 			boolean doc = false;
+			boolean hasPDF = false;
+			String pdfURL = "";
+			String info = "";
 			for (WebURL link : links) {
 				String l = link.getURL();
 				doc = !DOC_FILTERS.matcher(l).matches();
-				System.out.println("  link: " + l);
 				if (doc) {
-					
-					if (l.startsWith("http://olympus-imaging.cn/support/m_dl.php")) {
-						p.println(url + ";" + l + ";");
+					System.out.println("  link: " + l);
+					if (l.endsWith(".pdf")) {
+						hasPDF = true;
+						pdfURL = pdfURL + "," + l;
 					}
 				}
 			}
 
+			if (hasPDF) {
+				String title = htmlParseData.getTitle();
+				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";");
+				p.println(b);
+			}
 		}
 
 	}
