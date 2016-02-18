@@ -1,12 +1,4 @@
-package org.handbook.crawler.sony;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+package org.handbook.crawler.casio;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -14,7 +6,7 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
-public class SonyMain {
+public class CasioMain {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "./crawler";
         int numberOfCrawlers = 10;
@@ -37,35 +29,22 @@ public class SonyMain {
          * which are found in these pages
          */
 //        controller.addSeed("http://mall.midea.com");
-        addSeed(controller);
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=001");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=002");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=003");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=004");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=005");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=006");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=007");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=008");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=009");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=010");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=011");
         
         /*
          * Start the crawl. This is a blocking operation, meaning that your code
          * will reach the line after this only when crawling is finished.
          */
-        controller.start(SonyCrawler.class, numberOfCrawlers);
+        controller.start(CasioCrawler.class, numberOfCrawlers);
     }
-    
-    public static void addSeed(CrawlController controller) throws Exception{
-    	
-    	File data = new File("./shuomingshu/sony/seed");
-		File[] fs = data.listFiles();
-		for (int i = 0; i < fs.length; i++) {
-			System.out.println(fs[i].getAbsolutePath());
-			if (fs[i].isFile() && fs[i].exists()) {
-				InputStreamReader read = new InputStreamReader(new FileInputStream(fs[i]), "UTF-8");
-				BufferedReader reader = new BufferedReader(read);
-				String line;
-				while ((line = reader.readLine()) != null) {
-					controller.addSeed(line);
-//					System.out.println(line);
-				}
-				reader.close();
-				read.close();
-			}
-		}
-    }
-    
-    
-    
 }
