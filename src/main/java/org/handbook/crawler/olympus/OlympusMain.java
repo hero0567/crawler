@@ -1,4 +1,4 @@
-package org.handbook.crawler.casio;
+package org.handbook.crawler.olympus;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -6,7 +6,7 @@ import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
-public class CasioMain {
+public class OlympusMain {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "./crawler";
         int numberOfCrawlers = 10;
@@ -29,13 +29,22 @@ public class CasioMain {
          * which are found in these pages
          */
 //        controller.addSeed("http://mall.midea.com");
-        controller.addSeed("http://olympus-imaging.cn/support/download.php");
-        controller.addSeed("http://olympus-imaging.cn/support/download.php?flt=WXDD");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=001");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=002");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=003");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=004");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=005");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=006");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=007");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=008");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=009");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=010");
+        controller.addSeed("http://support.casio.com/cn/manual/manuallist.php?cid=011");
         
         /*
          * Start the crawl. This is a blocking operation, meaning that your code
          * will reach the line after this only when crawling is finished.
          */
-        controller.start(CasioCrawler.class, numberOfCrawlers);
+        controller.start(OlympusCrawler.class, numberOfCrawlers);
     }
 }
