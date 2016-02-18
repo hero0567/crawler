@@ -17,7 +17,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class SonyMain {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "./crawler";
-        int numberOfCrawlers = 10;
+        int numberOfCrawlers = 40;
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
@@ -37,6 +37,13 @@ public class SonyMain {
          * which are found in these pages
          */
 //        controller.addSeed("http://mall.midea.com");
+        	
+//        controller.addSeed("http://service.sony.com.cn/AUDIO/Download/62925.htm");
+//        controller.addSeed("http://service.sony.com.cn/AUDIO/Download/47930.htm");
+//        controller.addSeed("http://service.sony.com.cn/AUDIO/Download/44735.htm");
+//        controller.addSeed("http://service.sony.com.cn/AUDIO/Download/42645.htm");
+//        controller.addSeed("http://service.sony.com.cn/AUDIO/Download/42638.htm");
+//        controller.addSeed("http://service.sony.com.cn/AUDIO/Download/42631.htm");
         addSeed(controller);
         
         /*

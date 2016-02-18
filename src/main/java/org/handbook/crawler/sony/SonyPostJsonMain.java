@@ -29,26 +29,28 @@ public class SonyPostJsonMain {
 	 */
 	public static void main(String[] args) throws Exception {
 
+		String fname = "./sony";
+		FileOutputStream fs = new FileOutputStream(new File(fname));
+		PrintStream p = new PrintStream(fs);
+		
 		URL url = new URL(
 				"http://service.sony.com.cn/osearchService/pages/searchresults.do?&methodName=doSearch");
 		Map<String, String> params = new HashMap<String, String>();
 
-		for (int i = 1; i < 3; i++) {
+		for (int i = 1; i < 687; i++) {
 			params.put("cmbProductCategory",
 					"http://service.sony.com.cn/*/Download/");
 			params.put("pageNum", String.valueOf(i));
 			params.put("textSearch", "说明书");
 			String result = sendPostMessage(url, params, "utf-8");
-			parseJson(result);
+			parseJson(result, p);
 		}
 
 	}
 
-	public static void parseJson(String json) throws Exception {
+	public static void parseJson(String json, PrintStream p) throws Exception {
 
-		String fname = "./sony";
-		FileOutputStream fs = new FileOutputStream(new File(fname));
-		PrintStream p = new PrintStream(fs);
+		
 
 		System.out.println(json);;
 
@@ -63,10 +65,9 @@ public class SonyPostJsonMain {
 			// autn_title
 			String link = al.path("url").asText();
 
-			System.out.println(link);
+//			System.out.println(link);
 			p.println(link );
 		}
-		p.close();
 	}
 
 	public static String sendPostMessage(URL url, Map<String, String> params,

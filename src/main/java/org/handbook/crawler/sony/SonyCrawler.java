@@ -21,13 +21,16 @@ public class SonyCrawler extends WebCrawler {
 	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|mp3|zip|gz|/|html)$");
 
 	private List<String> urls = new ArrayList<String>();
+	private List<Pattern> urlsPattern = new ArrayList<Pattern>();
 
 	private FileOutputStream fs = null;
 	private PrintStream p = null;
 
 	public SonyCrawler() {
-		urls.add("http://www.siemens-home.cn/products".toLowerCase());
-		urls.add("http://www.siemens-home.cn/productlist".toLowerCase());
+		urls.add("http://service.sony.com.cn/".toLowerCase());
+		
+        urlsPattern.add(Pattern.compile("http://service.sony.com.cn/.*ownload/\\d*.htm"));
+        
 		try {
 			String fname = "./crasler" + System.nanoTime();
 			fs = new FileOutputStream(new File(fname));
@@ -55,19 +58,24 @@ public class SonyCrawler extends WebCrawler {
 		String href = url.getURL().toLowerCase();
 		boolean filter = !FILTERS.matcher(href).matches();
 		if (filter) {
-			for (String u : urls) {
-				if (href.toLowerCase().startsWith(u)) {
-					return true;
-				}
-			}
+//			for (String u : urls) {
+//				if (href.toLowerCase().startsWith(u)) {
+//					return true;
+//				}
+//			}
+			for(Pattern u : urlsPattern ){
+       		 if (u.matcher(href).matches()){
+       			 return true;
+       		 }
+       	 }
 		}
 		return false;
 	}
 
 	/**
 	 * This function is called when a page is fetched and ready to be processed
-	 * by your program. 厂商: 飞利浦 文件类型: PDF 文件大�?: 324.17 KB 上传时间: 2012-05-02
-	 * 16:33:21 文件校验: 7188D0015E6D2DF4549C1095C5C52E15 下载统计: 2715
+	 * by your program. 鍘傚晢: 椋炲埄娴� 鏂囦欢绫诲瀷: PDF 鏂囦欢澶у�?: 324.17 KB 涓婁紶鏃堕棿: 2012-05-02
+	 * 16:33:21 鏂囦欢鏍￠獙: 7188D0015E6D2DF4549C1095C5C52E15 涓嬭浇缁熻: 2715
 	 * 
 	 * Home > Industrial> > Processors> Linear LTC3676 LTC3676-1 Processors
 	 * Datasheet Company: File format: PDF File size: 477.02 KB MDS Checksum:
@@ -76,47 +84,35 @@ public class SonyCrawler extends WebCrawler {
 	@Override
 	public void visit(Page page) {
 		String url = page.getWebURL().getURL();
-//		System.out.println("URL: " + url);
+		System.out.println("URL: " + url);
 		StringBuilder b = new StringBuilder();
-		StringBuilder jpgURLs = new StringBuilder();
-		StringBuilder headers = new StringBuilder();
 		
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-			boolean doc = false;
 			boolean hasPDF = false;
 			String pdfURL = "";
-			for (WebURL link : links) {
-				String l = link.getURL();
-				doc = !DOC_FILTERS.matcher(l).matches();
-				if (doc) {
-					System.out.println("  link: " + l);
-					if (l.toUpperCase().indexOf("PDFOBID") > 0) {
+			String html = htmlParseData.getHtml();
+			
+			if (html.indexOf(".pdf") > 0){
+				String[] arr = html.split("\n");
+				for (String s : arr){
+					if (s.indexOf(".pdf") > 0){
+						pdfURL =s;
 						hasPDF = true;
-						pdfURL = l;
-					}
-					if (l.endsWith("png")) {
-						jpgURLs.append(l).append(",");
+						s = s.substring(s.indexOf("theUrl=") + 8);
+						s = s.substring(0, s.indexOf(".pdf") + 4);
+						pdfURL = s;
+						System.out.println("          "+s);
+						break;
 					}
 				}
 			}
 
 			if (hasPDF) {
-				String title = htmlParseData.getTitle();
-				String text = htmlParseData.getText();
-				String[] arr = text.split("\n");
-				for (int i = 0; i < arr.length; i++) {
-					String s = arr[i];
-					if (s.indexOf("首页产�?中心") > 0) {
-						System.out.println(s);
-						headers.append(s.trim());
-						break;
-					}
-				}
-				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
-				.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
+				String title = htmlParseData.getTitle();				
+				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";");
 				p.println(b);
 			}
 		}
