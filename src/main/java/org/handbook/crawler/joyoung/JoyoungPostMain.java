@@ -1,4 +1,4 @@
-package org.handbook.crawler.sony;
+package org.handbook.crawler.joyoung;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -17,11 +17,26 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+
+import org.htmlparser.Node;
+import org.htmlparser.NodeFilter;
+import org.htmlparser.Parser;
+import org.htmlparser.filters.AndFilter;
+import org.htmlparser.filters.HasAttributeFilter;
+import org.htmlparser.filters.LinkStringFilter;
+import org.htmlparser.filters.TagNameFilter;
+import org.htmlparser.tags.LinkTag;
+import org.htmlparser.util.NodeList;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class SonyPostJsonMain {
+import edu.uci.ics.crawler4j.crawler.Page;
+import edu.uci.ics.crawler4j.parser.HtmlParseData;
+import edu.uci.ics.crawler4j.url.WebURL;
+
+public class JoyoungPostMain {
 
 	/**
 	 * @param args
@@ -29,45 +44,85 @@ public class SonyPostJsonMain {
 	 */
 	public static void main(String[] args) throws Exception {
 
-		String fname = "./sony";
+		String fname = "./joyoung";
 		FileOutputStream fs = new FileOutputStream(new File(fname));
 		PrintStream p = new PrintStream(fs);
 		
-		URL url = new URL(
-				"http://service.sony.com.cn/osearchService/pages/searchresults.do?&methodName=doSearch");
+		URL url = new URL("http://kf.joyoung.com/downloadCenter_null_null.html");
 		Map<String, String> params = new HashMap<String, String>();
 
-		for (int i = 1; i < 687; i++) {
-			params.put("cmbProductCategory",
-					"http://service.sony.com.cn/*/Download/");
-			params.put("pageNum", String.valueOf(i));
-			params.put("textSearch", "说明书");
+		for (int i=1;i<145;i++){
+			params.put("page.curPage", String.valueOf(i));
+			if (i > 1){
+				params.put("page.fen", "10");
+				params.put("page.nextPage", String.valueOf(i));
+			}
+			params.put("page.zongNumsStr", "4191");
+			params.put("page.zongPageStr", "142");
+			params.put("page.rzong", "1419");
 			String result = sendPostMessage(url, params, "utf-8");
-			parseJson(result, p);
+			parseHTML(result, p);
 		}
-
 	}
 
-	public static void parseJson(String json, PrintStream p) throws Exception {
+	public static void parseHTML(String json, PrintStream p) throws Exception {
 
 		
+		Parser parser = new Parser(json);
+		
+        /* 
+         * 过滤到的标签过滤 
+       * NodeFilter filter = new TagNameFilter(div); 
+        */  
+        /* 
+         * 过滤有属性的HTML 
+         * NodeFilter[] nodeFilters = new NodeFilter[1]; 
+         * nodeFilters[0] = new AndFilter(new TagNameFilter(div),new HasAttributeFilter(className,classValue)); 
+        */  
+        NodeFilter nodeFilter  = new LinkStringFilter("pdf");
+//        NodeFilter nodeFilter = new AndFilter(new TagNameFilter(div),new HasAttributeFilter(className,classValue)); 
+        
+        
+          
+        /** 
+         * 进行查询匹配 
+         */  
+        NodeList nodeList = parser.extractAllNodesThatMatch(nodeFilter);  
+          
+        /** 
+         * 可执行多次过滤器 
+         * 在NodeList中执行过滤器时，第二个参数为True 
+         */  
+//        nodeList = nodeList.extractAllNodesThatMatch(new TagNameFilter("dl"),true);  
+//        nodeList = nodeList.extractAllNodesThatMatch(new TagNameFilter("dt"),true);       
+//        nodeList = nodeList.extractAllNodesThatMatch(new AndFilter(new TagNameFilter("a"),new HasAttributeFilter(href)),true);  
+          
+        //得到一个Node数组  
+        Node[] node = nodeList.toNodeArray();
+        for (Node n : node){
+        	NodeList nl = n.getParent().getParent().getChildren();
+        	int i = 0;
+        	String content = "";
+        	String name = "";
+        	String version = "";
+        	for (Node nd : nl.toNodeArray()){    
+        		content = nd.toPlainTextString();
+        		if (content.trim().length() > 0 && i < 3){
+        			i++;
+        			version =  i == 2 ?  content : version;
+        			name =  i == 3 ?  content : name;
+        		}
+        		
+        	}
+        	System.out.println(version);
+        	System.out.println(name);
+			System.out.println("http://kf.joyoung.com" + ((LinkTag) n).getLink());
+			
+			p.println(version + ";" + name + ";" + "http://kf.joyoung.com" + ((LinkTag) n).getLink() + ";");
+        }
+//		System.out.println(json);
+		
 
-		System.out.println(json);;
-
-		ObjectMapper mapper = new ObjectMapper();
-		JsonNode rootNode = mapper.readTree(json);
-
-		Iterator<JsonNode> list = rootNode.path("searchResultList").elements();
-
-		while (list.hasNext()) {
-			JsonNode al = list.next();
-		        
-			// autn_title
-			String link = al.path("url").asText();
-
-//			System.out.println(link);
-			p.println(link );
-		}
 	}
 
 	public static String sendPostMessage(URL url, Map<String, String> params,
