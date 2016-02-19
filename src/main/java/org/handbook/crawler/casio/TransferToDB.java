@@ -13,7 +13,7 @@ import java.sql.Statement;
 public class TransferToDB {
 	public static void main(String[] args) throws Exception {
 		Connection conn = null;
-		String url = "jdbc:mysql://localhost:3306/wmanual?"
+		String url = "jdbc:mysql://localhost:3306/crawler?"
 				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
 
 		try {
@@ -22,7 +22,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./siemens");
+			File data = new File("./shuomingshu/casio");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -40,16 +40,16 @@ public class TransferToDB {
 
 	public static void saveFileToDB(Statement stmt, File file) throws Exception {
 		if (file.isFile() && file.exists()) {
-			InputStreamReader read = new InputStreamReader(new FileInputStream(file), "UTF-8");
+			InputStreamReader read = new InputStreamReader(new FileInputStream(file), "GBK");
 			BufferedReader reader = new BufferedReader(read);
 			String line;
 			String url = null, title = null, pdfurl = null, jpgURLs = null;
 			String info = null;
-			String sql = "insert into crawler_siemens (url, title, pdfurl, jpgurl, info)  values(";
+			String sql = "insert into crawler_casio (url, title, pdfurl, jpgurl, info)  values(";
 			StringBuffer buffer = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				String[] splits = line.split(";");
-				if (splits.length < 5) {
+				if (splits.length < 3) {
 					System.out.println("Skip :" + line);
 					continue;
 				}
@@ -57,9 +57,7 @@ public class TransferToDB {
 //				.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
 				url = splits[0].trim();
 				title = splits[1].trim();
-				pdfurl = splits[2].trim();				
-				jpgURLs = splits[3].trim();				
-				info = splits[4].trim();
+				pdfurl = splits[2].trim();		
 
 				buffer.setLength(0);
 				buffer.append(sql).append("\"").append(url).append("\",\"").append(title).append("\",\"").append(pdfurl)
