@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -13,7 +14,7 @@ import java.sql.Statement;
 public class TransferToDB {
 	public static void main(String[] args) throws Exception {
 		Connection conn = null;
-		String url = "jdbc:mysql://localhost:3306/wmanual?"
+		String url = "jdbc:mysql://localhost:3306/crawler?"
 				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
 
 		try {
@@ -22,7 +23,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./philips");
+			File data = new File("./shuomingshu/samsung");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -38,14 +39,14 @@ public class TransferToDB {
 		}
 	}
 
-	public static void saveFileToDB(Statement stmt, File file) throws Exception {
+	public static void saveFileToDB(Statement stmt, File file) throws IOException  {
 		if (file.isFile() && file.exists()) {
-			InputStreamReader read = new InputStreamReader(new FileInputStream(file), "UTF-8");
+			InputStreamReader read = new InputStreamReader(new FileInputStream(file), "GBK");
 			BufferedReader reader = new BufferedReader(read);
 			String line;
 			String url = null, title = null, pdfurl = null, jpgURLs = null;
 			String headers = null;
-			String sql = "insert into crawler_philips (url, title, pdfurl, jpgurl)  values(";
+			String sql = "insert into crawler_samsung (url, title, pdfurl, jpgurl)  values(";
 			StringBuffer buffer = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				String[] splits = line.split(";");
@@ -53,6 +54,7 @@ public class TransferToDB {
 					System.out.println("Skip :" + line);
 					continue;
 				}
+				//
 //				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
 //				.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
 				url = splits[0].trim();
@@ -64,10 +66,15 @@ public class TransferToDB {
 				buffer.append(sql).append("\"").append(url).append("\",\"").append(title).append("\",\"").append(pdfurl)
 						.append("\",\"").append(jpgURLs).append("\")");
 
-//				System.out.println("Data:" + line);
-//				System.out.println("SQL:" + buffer.toString());
+				System.out.println("Data:" + line);
+				System.out.println("SQL:" + buffer.toString());
 //				stmt.addBatch(sql);
-				stmt.executeUpdate(buffer.toString());
+				try {
+					stmt.executeUpdate(buffer.toString());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 //			stmt.executeBatch();
 			reader.close();

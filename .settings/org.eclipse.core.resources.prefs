@@ -1,7 +1,10 @@
 eclipse.preferences.version=1
 encoding//shuomingshu/huawei/huawei=UTF-8
+encoding//shuomingshu/samsung=GBK
 encoding//src/main/java/org/handbook/crawler/casio/CasioCrawler.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/huawei/TransferToDB.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/olympus/OlympusCrawler.java=UTF-8
+encoding//src/main/java/org/handbook/crawler/samsung/TransferToDB.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/sony/SonyCrawler.java=UTF-8
 encoding//src/main/java/org/handbook/crawler/sony/SonyPostJsonMain.java=UTF-8
+encoding/shuomingshu=UTF-8
