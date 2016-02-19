@@ -13,7 +13,7 @@ import java.sql.Statement;
 public class TransferToDB {
 	public static void main(String[] args) throws Exception {
 		Connection conn = null;
-		String url = "jdbc:mysql://localhost:3306/wmanual?"
+		String url = "jdbc:mysql://localhost:3306/crawler?"
 				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
 
 		try {
@@ -22,7 +22,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./philips");
+			File data = new File("./shuomingshu/lenovo");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -43,9 +43,9 @@ public class TransferToDB {
 			InputStreamReader read = new InputStreamReader(new FileInputStream(file), "UTF-8");
 			BufferedReader reader = new BufferedReader(read);
 			String line;
-			String url = null, title = null, pdfurl = null, jpgURLs = null;
+			String url = null, title = null, pdfurl = null, date = null, info = null;
 			String headers = null;
-			String sql = "insert into crawler_philips (url, title, pdfurl, jpgurl)  values(";
+			String sql = "insert into crawler_lenovo (url, title, pdfurl, date, info)  values(";
 			StringBuffer buffer = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				String[] splits = line.split(";");
@@ -58,11 +58,12 @@ public class TransferToDB {
 				url = splits[0].trim();
 				title = splits[1].trim();
 				pdfurl = splits[2].trim();				
-				jpgURLs = splits[3].trim();		
+				date = splits[3].trim();
+				info = splits[4].trim();
 
 				buffer.setLength(0);
 				buffer.append(sql).append("\"").append(url).append("\",\"").append(title).append("\",\"").append(pdfurl)
-						.append("\",\"").append(jpgURLs).append("\")");
+						.append("\",\"").append(date).append("\",\"").append(info).append("\")");
 
 //				System.out.println("Data:" + line);
 //				System.out.println("SQL:" + buffer.toString());
