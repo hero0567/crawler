@@ -1,4 +1,4 @@
-package org.handbook.crawler.joyoung;
+package org.handbook.crawler.galanz;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -36,7 +36,7 @@ import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-public class JoyoungPostMain {
+public class GalanzPageMain {
 
 	/**
 	 * @param args
@@ -44,30 +44,21 @@ public class JoyoungPostMain {
 	 */
 	public static void main(String[] args) throws Exception {
 
-		String fname = "./joyoung";
+		String fname = "./galanz";
 		FileOutputStream fs = new FileOutputStream(new File(fname));
 		PrintStream p = new PrintStream(fs);
 		
-		URL url = new URL("http://kf.joyoung.com/downloadCenter_null_null.html");
 		Map<String, String> params = new HashMap<String, String>();
 
-		for (int i=1;i<145;i++){
-			params.put("page.curPage", String.valueOf(i));
-			if (i > 1){
-				params.put("page.fen", "10");
-				params.put("page.nextPage", String.valueOf(i));
-			}
-			params.put("page.zongNumsStr", "4191");
-			params.put("page.zongPageStr", "142");
-			params.put("page.rzong", "1419");
-			String result = sendPostMessage(url, params, "utf-8");
+		for (int i=1;i<22;i++){
+			URL url = new URL("http://www.galanz.com.cn/pages/srv_5.aspx?catid=18|215&p=" + i);
+			String result = sendGetMessage(url, params, "utf-8");
 			parseHTML(result, p);
 		}
 	}
 
 	public static void parseHTML(String json, PrintStream p) throws Exception {
 
-		
 		Parser parser = new Parser(json);
 		
         /* 
@@ -87,7 +78,7 @@ public class JoyoungPostMain {
         /** 
          * 进行查询匹配 
          */  
-		NodeFilter nodeFilter  = new LinkStringFilter("pdf");
+		NodeFilter nodeFilter  = new LinkStringFilter("rar");
         NodeList nodeList = parser.extractAllNodesThatMatch(nodeFilter);  
           
         /** 
@@ -117,75 +108,29 @@ public class JoyoungPostMain {
         	}
         	System.out.println(version);
         	System.out.println(name);
-			System.out.println("http://kf.joyoung.com" + ((LinkTag) n).getLink());
+			System.out.println("http://www.galanz.com.cn" + ((LinkTag) n).getLink());
 			
-			p.println(version + ";" + name + ";" + "http://kf.joyoung.com" + ((LinkTag) n).getLink() + ";");
+			p.println(version + ";" + name + ";" + "http://www.galanz.com.cn" + ((LinkTag) n).getLink() + ";");
         }
 //		System.out.println(json);
 		
 
 	}
 
-	public static String sendPostMessage(URL url, Map<String, String> params,
-			String encode) throws MalformedURLException {
+	public static String sendGetMessage(URL url, Map<String, String> params,
+			String encode) throws IOException {
 
-		StringBuffer stringBuffer = new StringBuffer();
-
-		if (params != null && !params.isEmpty()) {
-			for (Map.Entry<String, String> entry : params.entrySet()) {
-				try {
-					stringBuffer
-							.append(entry.getKey())
-							.append("=")
-							.append(URLEncoder.encode(entry.getValue(), encode))
-							.append("&");
-
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			// 删掉最后一个 & 字符
-			stringBuffer.deleteCharAt(stringBuffer.length() - 1);
-
-			try {
-				HttpURLConnection httpURLConnection = (HttpURLConnection) url
-						.openConnection();
-				httpURLConnection.setConnectTimeout(3000);
-				httpURLConnection.setDoInput(true);// 从服务器获取数据
-				httpURLConnection.setDoOutput(true);// 向服务器写入数据
-
-				// 获得上传信息的字节大小及长度
-				byte[] mydata = stringBuffer.toString().getBytes();
-				// 设置请求体的类型
-				httpURLConnection.setRequestProperty("Content-Type",
-						"application/x-www-form-urlencoded");
-				httpURLConnection.setRequestProperty("Content-Lenth",
-						String.valueOf(mydata.length));
-
-				// 获得输出流，向服务器输出数据
-				OutputStream outputStream = (OutputStream) httpURLConnection
-						.getOutputStream();
-				outputStream.write(mydata);
-
-				// 获得服务器响应的结果和状态码
-				int responseCode = httpURLConnection.getResponseCode();
-				if (responseCode == 200) {
-
-					// 获得输入流，从服务器端获得数据
-					InputStream inputStream = (InputStream) httpURLConnection
-							.getInputStream();
-					return (changeInputStream(inputStream, encode));
-
-				}
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		StringBuffer str = new StringBuffer();
+		String s;
+		InputStream is = url.openStream();
+		InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+		
+		BufferedReader br = new BufferedReader(isr);
+		while ((s = br.readLine()) != null){
+			str.append(s);
 		}
 
-		return "";
+		return str.toString();
 	}
 
 	/*
