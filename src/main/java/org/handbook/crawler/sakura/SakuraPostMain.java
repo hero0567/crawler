@@ -51,8 +51,8 @@ public class SakuraPostMain {
 		URL url = new URL("http://www.sakura.com.cn/service/ajaxgetmanuallist");
 		Map<String, String> params = new HashMap<String, String>();
 
-		for (int i=1;i<2;i++){
-			params.put("type_id", "10");
+		for (int i=1;i<20;i++){
+			params.put("type_id", String.valueOf(i));
 			String result = sendPostMessage(url, params, "utf-8");
 			parseHTML(result, p);
 		}
@@ -95,25 +95,15 @@ public class SakuraPostMain {
         //得到一个Node数组  
         Node[] node = nodeList.toNodeArray();
         for (Node n : node){
-        	NodeList nl = n.getParent().getParent().getChildren();
-        	int i = 0;
-        	String content = "";
+        	Node nl = n.getParent();
         	String name = "";
-        	String version = "";
-        	for (Node nd : nl.toNodeArray()){    
-        		content = nd.toPlainTextString();
-        		if (content.trim().length() > 0 && i < 3){
-        			i++;
-        			version =  i == 2 ?  content : version;
-        			name =  i == 3 ?  content : name;
-        		}
+        	
+        	name = nl.toPlainTextString();
         		
-        	}
-        	System.out.println(version);
         	System.out.println(name);
-			System.out.println("http://kf.joyoung.com" + ((LinkTag) n).getLink());
+			System.out.println("http://www.sakura.com.cn" + ((LinkTag) n).getLink());
 			
-			p.println(version + ";" + name + ";" + "http://kf.joyoung.com" + ((LinkTag) n).getLink() + ";");
+			p.println(name + ";" + "http://www.sakura.com.cn" + ((LinkTag) n).getLink() + ";");
         }
 //		System.out.println(json);
 		
