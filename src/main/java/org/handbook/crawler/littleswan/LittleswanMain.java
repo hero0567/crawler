@@ -17,7 +17,7 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 public class LittleswanMain {
     public static void main(String[] args) throws Exception {
         String crawlStorageFolder = "./crawler";
-        int numberOfCrawlers = 40;
+        int numberOfCrawlers = 10;
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
@@ -38,15 +38,13 @@ public class LittleswanMain {
          */
 //        controller.addSeed("http://mall.midea.com");
         	
-        controller.addSeed("http://www.littleswan.com/FrontLoading/show/51.html");
-        controller.addSeed("http://www.littleswan.com/FullAutomatic/");
-        controller.addSeed("http://www.littleswan.com/TwinTub/");
-        controller.addSeed("http://www.littleswan.com/Fridge/");
-        controller.addSeed("http://www.littleswan.com/Airconditioner/show/29.html");
-        controller.addSeed("http://www.littleswan.com/Dryer/show/1.html");
-        controller.addSeed("http://www.littleswan.com/Dryer/show/2.html");
-        
-//        addSeed(controller);
+//        controller.addSeed("http://www.littleswan.com/FrontLoading/show/51.html");
+        addSeed(controller, "http://www.littleswan.com/FullAutomatic/show/");
+        addSeed(controller, "http://www.littleswan.com/TwinTub/show/");
+        addSeed(controller, "http://www.littleswan.com/Fridge/show/");
+        addSeed(controller, "http://www.littleswan.com/Airconditioner/show/");
+        addSeed(controller, "http://www.littleswan.com/Dryer/show/");        
+        addSeed(controller, "http://www.littleswan.com/FrontLoading/show/");
         
         /*
          * Start the crawl. This is a blocking operation, meaning that your code
@@ -55,24 +53,10 @@ public class LittleswanMain {
         controller.start(LittleswanCrawler.class, numberOfCrawlers);
     }
     
-    public static void addSeed(CrawlController controller) throws Exception{
-    	
-    	File data = new File("./shuomingshu/sony/seed");
-		File[] fs = data.listFiles();
-		for (int i = 0; i < fs.length; i++) {
-			System.out.println(fs[i].getAbsolutePath());
-			if (fs[i].isFile() && fs[i].exists()) {
-				InputStreamReader read = new InputStreamReader(new FileInputStream(fs[i]), "UTF-8");
-				BufferedReader reader = new BufferedReader(read);
-				String line;
-				while ((line = reader.readLine()) != null) {
-					controller.addSeed(line);
-//					System.out.println(line);
-				}
-				reader.close();
-				read.close();
-			}
-		}
+    public static void addSeed(CrawlController controller, String url) throws Exception{
+    	for (int i =0; i < 100; i++){
+    		controller.addSeed(url + String.valueOf(i) + ".html");
+    	}    	
     }
     
     

@@ -18,7 +18,7 @@ public class LittleswanCrawler extends WebCrawler {
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|png|mp3|mp3|zip|gz))$");
 
-	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|mp3|zip|gz|/|html)$");
+	private final static Pattern DOC_FILTERS = Pattern.compile(".*(css|js|gif|mp3|zip|gz|/)$");
 
 	private List<String> urls = new ArrayList<String>();
 	private List<Pattern> urlsPattern = new ArrayList<Pattern>();
@@ -28,8 +28,13 @@ public class LittleswanCrawler extends WebCrawler {
 
 	public LittleswanCrawler() {
 		urls.add("http://www.littleswan.com/FrontLoading/show/51.html".toLowerCase());
-		
-        urlsPattern.add(Pattern.compile("http://service.sony.com.cn/.*ownload/\\d*.htm"));
+		        
+        urlsPattern.add(Pattern.compile("http://www.littleswan.com/FullAutomatic/show/".toLowerCase()));
+        urlsPattern.add(Pattern.compile("http://www.littleswan.com/TwinTub/show/".toLowerCase()));
+        urlsPattern.add(Pattern.compile("http://www.littleswan.com/Fridge/show/".toLowerCase()));
+        urlsPattern.add(Pattern.compile("http://www.littleswan.com/Airconditioner/show/".toLowerCase()));
+        urlsPattern.add(Pattern.compile("http://www.littleswan.com/Dryer/show/".toLowerCase()));        
+        urlsPattern.add(Pattern.compile("http://www.littleswan.com/FrontLoading/show/".toLowerCase()));
         
 		try {
 			String fname = "./crasler" + System.nanoTime();
@@ -86,33 +91,34 @@ public class LittleswanCrawler extends WebCrawler {
 		String url = page.getWebURL().getURL();
 		System.out.println("URL: " + url);
 		StringBuilder b = new StringBuilder();
+		StringBuilder jpgURLs = new StringBuilder();
 		
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
+			boolean doc = false;
 			boolean hasPDF = false;
 			String pdfURL = "";
-			String html = htmlParseData.getHtml();
-			
-			if (html.indexOf(".pdf") > 0){
-				String[] arr = html.split("\n");
-				for (String s : arr){
-					if (s.indexOf(".pdf") > 0){
-						pdfURL =s;
+			//Frontloading/down/id
+			for (WebURL link : links) {
+				String l = link.getURL().toLowerCase();
+				doc = !DOC_FILTERS.matcher(l).matches();
+				System.out.println("        "+l);
+				if (doc) {
+					if (l.toLowerCase().indexOf("/down/id") > 0) {
 						hasPDF = true;
-						s = s.substring(s.indexOf("theUrl=") + 8);
-						s = s.substring(0, s.indexOf(".pdf") + 4);
-						pdfURL = s;
-						System.out.println("          "+s);
-						break;
+						pdfURL = l;
+					}
+					if (l.endsWith("jpg")) {
+						jpgURLs.append(l).append(",");
 					}
 				}
 			}
 
 			if (hasPDF) {
 				String title = htmlParseData.getTitle();				
-				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";");
+				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";").append(jpgURLs.toString()).append(";");
 				p.println(b);
 			}
 		}
