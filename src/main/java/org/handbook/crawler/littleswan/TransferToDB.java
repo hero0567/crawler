@@ -22,7 +22,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./shuomingshu/sony");
+			File data = new File("./shuomingshu/littleswan");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -45,11 +45,13 @@ public class TransferToDB {
 			String line;
 			String url = null, title = null, pdfurl = null, jpgURLs = null;
 			String headers = null;
-			String sql = "insert into crawler_sony  (url, title, pdfurl)  values(";
+			//http://www.littleswan.com/FullAutomatic/show/14.html;TB75-easy60W-全自动洗衣机|全心全意小天鹅;http://www.littleswan.com/fullautomatic/down/id/14.html;
+			//http://www.littleswan.com/uploads/201510/5632c9811da23.jpg,
+			String sql = "insert into crawler_littleswan  (url, title, pdfurl, jpgurl)  values(";
 			StringBuffer buffer = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				String[] splits = line.split(";");
-				if (splits.length < 3) {
+				if (splits.length < 4) {
 					System.out.println("Skip :" + line);
 					continue;
 				}
@@ -57,10 +59,11 @@ public class TransferToDB {
 //				.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
 				url = splits[0].trim();
 				title = splits[1].trim();
-				pdfurl = splits[2].trim();		
+				pdfurl = splits[2].trim();	
+				jpgURLs = splits[3].trim();	
 
 				buffer.setLength(0);
-				buffer.append(sql).append("\"").append(url).append("\",\"").append(title).append("\",\"").append(pdfurl).append("\")");
+				buffer.append(sql).append("\"").append(url).append("\",\"").append(title).append("\",\"").append(pdfurl).append("\",\"").append(jpgURLs).append("\")");
 
 				System.out.println("Data:" + line);
 				System.out.println("SQL:" + buffer.toString());

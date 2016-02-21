@@ -22,7 +22,7 @@ public class TransferToDB {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
 			
-			File data = new File("./shuomingshu/olympus");
+			File data = new File("./shuomingshu/galanz");
 			File[] fs = data.listFiles();
 			for (int i = 0; i < fs.length; i++) {
 				System.out.println(fs[i].getAbsolutePath());
@@ -40,12 +40,14 @@ public class TransferToDB {
 
 	public static void saveFileToDB(Statement stmt, File file) throws Exception {
 		if (file.isFile() && file.exists()) {
-			InputStreamReader read = new InputStreamReader(new FileInputStream(file), "UTF-8");
+			InputStreamReader read = new InputStreamReader(new FileInputStream(file), "GBK");
 			BufferedReader reader = new BufferedReader(read);
 			String line;
-			String url = null, title = null, pdfurl = null, jpgURLs = null;
+			String url = null, title = null, pdfurl = null, date = null;
 			String info = null;
-			String sql = "insert into crawler_olympus (url, title, pdfurl, jpgurl, info)  values(";
+			//G80D23CSL-G1(R0) G80D23CN2L-G1(R0);2010-09-08;G80D23CSL-G1(R0) G80D23CN2L-G1(R0);
+			//http://www.galanz.com.cn/upload/downfile/20100908104819.rar;
+			String sql = "insert into crawler_galanz (url, title, pdfurl, date, info)  values(";
 			StringBuffer buffer = new StringBuffer();
 			while ((line = reader.readLine()) != null) {
 				String[] splits = line.split(";");
@@ -55,12 +57,14 @@ public class TransferToDB {
 				}
 //				b.append(url).append(";").append(title.trim()).append(";").append(pdfURL).append(";")
 //				.append(jpgURLs.toString()).append(";").append(headers.toString()).append(";");
-				url = splits[0].trim();
-				pdfurl = splits[1].trim();
+				title = splits[0].trim();
+				date = splits[1].trim();
+				info = splits[0].trim();
+				url = splits[3].trim();
 
 				buffer.setLength(0);
 				buffer.append(sql).append("\"").append(url).append("\",\"").append(title).append("\",\"").append(pdfurl)
-						.append("\",\"").append(jpgURLs).append("\",\"").append(info).append("\")");
+						.append("\",\"").append(date).append("\",\"").append(info).append("\")");
 
 //				System.out.println("Data:" + line);
 //				System.out.println("SQL:" + buffer.toString());
