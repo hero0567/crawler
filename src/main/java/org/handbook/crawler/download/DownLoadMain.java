@@ -1,4 +1,4 @@
-package org.handbook.crawler;
+package org.handbook.crawler.download;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,7 +14,7 @@ public class DownLoadMain {
 	public static void main(String[] args) throws SQLException, ClassNotFoundException{
 
 		
-		ExecutorService threadPool = Executors.newFixedThreadPool(5);		  
+		ExecutorService threadPool = Executors.newFixedThreadPool(10);		  
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/wmanual?"
 				+ "user=root&password=root&useUnicode=true&characterEncoding=UTF8";
@@ -22,7 +22,7 @@ public class DownLoadMain {
 		Class.forName("com.mysql.jdbc.Driver");
 		conn = DriverManager.getConnection(url);
 		Statement stmt = conn.createStatement();
-		String sql = "select id, name,url, owner from handbook_download where owner != 'shuomingshuku' and status = 0";
+		String sql = "select id, name,url, owner from wmanual where owner != 'shuomingshuku' and status = 0";
 		ResultSet sets = stmt.executeQuery(sql);
 		String name= null, downloadlink1=null, owner = "";
 		String[] splits = null;

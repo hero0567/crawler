@@ -1,4 +1,4 @@
-package org.handbook.crawler;
+package org.handbook.crawler.download;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -27,7 +29,7 @@ public class DownLoadWork extends Thread {
 	}
 	
 	/**
-	 * 从网络Url中下载文件
+	 * 从网络Url中下载文�?
 	 * 
 	 * @param urlStr
 	 * @param fileName
@@ -35,7 +37,7 @@ public class DownLoadWork extends Thread {
 	 * @throws Exception 
 	 */
 	public void downLoadFromUrl(String urlStr, String fileName, String savePath) throws Exception {
-		URL url = new URL(urlStr);
+		URL url = new URL(URLDecoder.decode(urlStr,"UTF-8"));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setConnectTimeout(30 * 1000);
 		conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
@@ -92,7 +94,7 @@ public class DownLoadWork extends Thread {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(url);
-			String updateSql = "update handbook_download set status = ?, tags= ? where id = ?";	
+			String updateSql = "update wmanual set status = ?, tags= ? where id = ?";	
 			pstmt = (PreparedStatement) conn.prepareStatement(updateSql);
 			downLoadFromUrl(downloadlink1, name, "download/" + owner + "/");			
 			pstmt.setInt(1, 1);
