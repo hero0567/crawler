@@ -1,5 +1,7 @@
 package crawler;
 
+import java.util.Date;
+
 public class Test {
 	
 	public static void main(String[] args){
@@ -7,6 +9,8 @@ public class Test {
 		
 		System.out.println(s.indexOf("frontloading/down/id"));
 		
+		
+		System.out.println(new Date().toString());
 	}
 
 }

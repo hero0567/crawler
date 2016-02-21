@@ -2,6 +2,7 @@ package org.handbook.crawler.download;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,7 +65,7 @@ public class DownLoadWork extends Thread {
 			throw new Exception("file to small");
 		}
 
-		System.out.println("info:" + url + " download success");
+		System.out.println(new Date().toString() + ":" + url + " download success");
 
 	}
 
@@ -83,7 +84,7 @@ public class DownLoadWork extends Thread {
 	@Override
 	public void run() {
 		
-		System.out.println("start a new task for id :" + id);
+		System.out.println(new Date().toString() + ":" + "start a new task for id :" + id);
 		
 		Connection conn = null;
 		String url = "jdbc:mysql://localhost:3306/wmanual?"
@@ -101,9 +102,9 @@ public class DownLoadWork extends Thread {
 	        pstmt.setString(2, name);
 	        pstmt.setInt(3, id);
 	        pstmt.executeUpdate();	
-	        System.out.println("finished task for id :" + id);
+	        System.out.println(new Date().toString() + ":" + "finished task for id :" + id);
 		} catch (Exception e) {
-			System.out.println("Download Failed:" + id + " : " + name + ":" + downloadlink1);
+			System.out.println(new Date().toString() + ":" + "Download Failed:" + id + " : " + name + ":" + downloadlink1);
 			e.printStackTrace();
 		}finally{
 			if (pstmt != null){

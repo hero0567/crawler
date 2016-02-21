@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -37,7 +38,7 @@ public class DownLoadMain {
 				owner = sets.getString("owner");
 				threadPool.execute(new DownLoadWork(id, name, downloadlink1, owner));				
 			} catch (Exception e) {
-				System.out.println("Download Failed:" + id + " : " + name + ":" + downloadlink1);
+				System.out.println(new Date().toString() + ":Download Failed:" + id + " : " + name + ":" + downloadlink1);
 				e.printStackTrace();
 			}	
 		}
